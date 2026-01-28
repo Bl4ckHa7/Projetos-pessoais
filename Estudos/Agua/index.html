@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animação Fluida de Água</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        header {
+            text-align: center;
+            padding: 2rem 1rem;
+            background-color: rgba(0, 20, 40, 0.7);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 10px rgba(79, 172, 254, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 5;
+        }
+        
+        .canvas-container {
+            width: 100%;
+            max-width: 900px;
+            height: 500px;
+            margin: 1.5rem 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(100, 200, 255, 0.2);
+            position: relative;
+        }
+        
+        #waterCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            cursor: pointer;
+        }
+        
+        .instructions {
+            background-color: rgba(0, 30, 60, 0.7);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 1.5rem;
+            max-width: 900px;
+            width: 100%;
+            border-left: 4px solid #4facfe;
+        }
+        
+        .instructions h2 {
+            margin-bottom: 0.8rem;
+            color: #00f2fe;
+        }
+        
+        .instructions p {
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+        }
+        
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            justify-content: center;
+        }
+        
+        button {
+            background: linear-gradient(to right, #1a2980, #26d0ce);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            font-weight: 600;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button.reset {
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+        }
+        
+        button.rain {
+            background: linear-gradient(to right, #2193b0, #6dd5ed);
+        }
+        
+        .stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            background-color: rgba(0, 20, 40, 0.5);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00f2fe;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            background-color: rgba(0, 10, 20, 0.8);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .canvas-container {
+                height: 400px;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            button {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .canvas-container {
+                height: 300px;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Animação Fluida de Água</h1>
+        <p class="subtitle">Interaja com a água movendo o mouse, clicando ou usando os controles abaixo. Observe as ondulações fluidas e os efeitos realistas.</p>
+    </header>
+    
+    <div class="container">
+        <div class="canvas-container">
+            <canvas id="waterCanvas"></canvas>
+        </div>
+        
+        <div class="instructions">
+            <h2>Como interagir:</h2>
+            <p>• <strong>Mova o mouse</strong> sobre a água para criar ondulações suaves</p>
+            <p>• <strong>Clique e arraste</strong> para criar ondas mais intensas</p>
+            <p>• <strong>Use os botões abaixo</strong> para alterar o efeito da água</p>
+        </div>
+        
+        <div class="controls">
+            <button id="calmBtn">Água Calma</button>
+            <button id="stormBtn">Tempestade</button>
+            <button id="rainBtn" class="rain">Chuva</button>
+            <button id="resetBtn" class="reset">Reiniciar</button>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-value" id="waveCount">0</div>
+                <div>Ondulações Ativas</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="fpsCounter">60</div>
+                <div>FPS</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="interactionCount">0</div>
+                <div>Interações</div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Animação de água fluida criada com HTML5 Canvas, CSS e JavaScript puro</p>
+        <p>Movimente o mouse sobre a água para criar ondulações realistas</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos do DOM
+            const canvas = document.getElementById('waterCanvas');
+            const ctx = canvas.getContext('2d');
+            const waveCountElement = document.getElementById('waveCount');
+            const fpsCounterElement = document.getElementById('fpsCounter');
+            const interactionCountElement = document.getElementById('interactionCount');
+            
+            // Configuração do canvas
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            
+            // Ajusta o canvas quando a janela for redimensionada
+            window.addEventListener('resize', function() {
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+                initWater();
+            });
+            
+            // Variáveis da simulação
+            let waves = [];
+            let rainDrops = [];
+            let interactionCount = 0;
+            let lastTime = 0;
+            let frameCount = 0;
+            let fps = 60;
+            let isRaining = false;
+            
+            // Configurações da água
+            const waterConfig = {
+                density: 0.98,       // Densidade da água (afecta a propagação de ondas)
+                tension: 0.025,      // Tensão superficial
+                viscosity: 0.01,     // Viscosidade (amortecimento)
+                waveHeight: 0.8,     // Altura máxima das ondas
+                colorDepth: 30,      // Profundidade da cor da água
+                calmMode: false      // Modo calmo
+            };
+            
+            // Configurações de onda
+            const waveSettings = {
+                calm: {
+                    density: 0.96,
+                    tension: 0.015,
+                    viscosity: 0.02,
+                    waveHeight: 0.4
+                },
+                storm: {
+                    density: 0.99,
+                    tension: 0.04,
+                    viscosity: 0.005,
+                    waveHeight: 1.5
+                },
+                normal: {
+                    density: 0.98,
+                    tension: 0.025,
+                    viscosity: 0.01,
+                    waveHeight: 0.8
+                }
+            };
+            
+            // Inicializa a simulação de água
+            function initWater() {
+                waves = [];
+                rainDrops = [];
+                
+                // Cria a grade de pontos para a água
+                const cols = Math.floor(canvas.width / 20);
+                const rows = Math.floor(canvas.height / 20);
+                
+                for (let x = 0; x <= cols; x++) {
+                    for (let y = 0; y <= rows; y++) {
+                        waves.push({
+                            x: (x / cols) * canvas.width,
+                            y: (y / rows) * canvas.height,
+                            baseY: (y / rows) * canvas.height,
+                            height: 0,
+                            velocity: 0,
+                            neighbors: []
+                        });
+                    }
+                }
+                
+                // Conecta os vizinhos (para propagação de ondas)
+                for (let i = 0; i < waves.length; i++) {
+                    const wave = waves[i];
+                    wave.neighbors = [];
+                    
+                    // Encontra vizinhos próximos (grade)
+                    for (let j = 0; j < waves.length; j++) {
+                        if (i !== j) {
+                            const dx = waves[j].x - wave.x;
+                            const dy = waves[j].y - wave.y;
+                            const distance = Math.sqrt(dx*dx + dy*dy);
+                            
+                            if (distance < 30) {
+                                wave.neighbors.push({
+                                    index: j,
+                                    distance: distance
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // Cria uma ondulação na posição especificada
+            function createRipple(x, y, intensity = 1.0) {
+                interactionCount++;
+                interactionCountElement.textContent = interactionCount;
+                
+                // Encontra o ponto mais próximo do clique
+                let closestIndex = -1;
+                let minDistance = Infinity;
+                
+                for (let i = 0; i < waves.length; i++) {
+                    const dx = waves[i].x - x;
+                    const dy = waves[i].y - y;
+                    const distance = Math.sqrt(dx*dx + dy*dy);
+                    
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        closestIndex = i;
+                    }
+                }
+                
+                // Aplica a força ao ponto e a seus vizinhos
+                if (closestIndex !== -1) {
+                    for (let i = 0; i < waves.length; i++) {
+                        const dx = waves[i].x - x;
+                        const dy = waves[i].y - y;
+                        const distance = Math.sqrt(dx*dx + dy*dy);
+                        
+                        // Quanto mais próximo, maior o efeito
+                        if (distance < 100) {
+                            const force = (1 - distance/100) * intensity * 15;
+                            waves[i].velocity -= force;
+                        }
+                    }
+                }
+            }
+            
+            // Cria uma gota de chuva
+            function createRainDrop() {
+                const x = Math.random() * canvas.width;
+                const y = 0;
+                const size = Math.random() * 3 + 1;
+                
+                rainDrops.push({
+                    x: x,
+                    y: y,
+                    size: size,
+                    speed: Math.random() * 5 + 3,
+                    splash: false
+                });
+            }
+            
+            // Atualiza a simulação de água
+            function updateWater(deltaTime) {
+                // Atualiza gotas de chuva
+                if (isRaining && Math.random() < 0.3) {
+                    createRainDrop();
+                }
+                
+                for (let i = rainDrops.length - 1; i >= 0; i--) {
+                    const drop = rainDrops[i];
+                    drop.y += drop.speed;
+                    
+                    // Se a gota atingir a água, criar uma ondulação
+                    if (drop.y > canvas.height * 0.7 && !drop.splash) {
+                        createRipple(drop.x, drop.y, 0.3);
+                        drop.splash = true;
+                    }
+                    
+                    // Remove gotas que saíram da tela
+                    if (drop.y > canvas.height || drop.splash) {
+                        rainDrops.splice(i, 1);
+                    }
+                }
+                
+                // Atualiza cada ponto da água
+                for (let i = 0; i < waves.length; i++) {
+                    const wave = waves[i];
+                    
+                    // Aplica a tensão superficial (puxa de volta para a posição base)
+                    const tensionForce = (wave.baseY - wave.y) * waterConfig.tension;
+                    wave.velocity += tensionForce;
+                    
+                    // Aplica a viscosidade (amortecimento)
+                    wave.velocity *= (1 - waterConfig.viscosity);
+                    
+                    // Propaga a força para os vizinhos
+                    for (let j = 0; j < wave.neighbors.length; j++) {
+                        const neighbor = waves[wave.neighbors[j].index];
+                        const distance = wave.neighbors[j].distance;
+                        
+                        // A força é proporcional à diferença de altura e inversamente proporcional à distância
+                        const propagationForce = (neighbor.height - wave.height) * waterConfig.density * (1 / (distance * 0.5));
+                        wave.velocity += propagationForce * 0.1;
+                    }
+                    
+                    // Atualiza a posição
+                    wave.height += wave.velocity;
+                    
+                    // Limita a altura da onda
+                    const maxWaveHeight = waterConfig.waveHeight * 20;
+                    if (Math.abs(wave.height) > maxWaveHeight) {
+                        wave.height = Math.sign(wave.height) * maxWaveHeight;
+                        wave.velocity *= -0.3; // Inverte parcialmente ao atingir o limite
+                    }
+                    
+                    // Aplica a altura à posição Y
+                    wave.y = wave.baseY + wave.height;
+                }
+                
+                // Atualiza contador de ondas ativas
+                let activeWaves = 0;
+                for (let i = 0; i < waves.length; i++) {
+                    if (Math.abs(waves[i].velocity) > 0.01) {
+                        activeWaves++;
+                    }
+                }
+                waveCountElement.textContent = activeWaves;
+            }
+            
+            // Desenha a água
+            function drawWater() {
+                // Limpa o canvas com um gradiente de fundo
+                const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                gradient.addColorStop(0, "#0a1929");
+                gradient.addColorStop(1, "#1a3a5f");
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Desenha gotas de chuva
+                for (const drop of rainDrops) {
+                    ctx.beginPath();
+                    ctx.arc(drop.x, drop.y, drop.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(100, 180, 255, ${0.7 - drop.y/canvas.height})`;
+                    ctx.fill();
+                }
+                
+                // Desenha a superfície da água
+                ctx.beginPath();
+                
+                // Encontra os pontos na linha da superfície (aproximadamente y = 70% da altura)
+                const surfaceY = canvas.height * 0.7;
+                const surfacePoints = [];
+                
+                for (let i = 0; i < waves.length; i++) {
+                    if (Math.abs(waves[i].baseY - surfaceY) < 15) {
+                        surfacePoints.push(waves[i]);
+                    }
+                }
+                
+                // Ordena por coordenada X
+                surfacePoints.sort((a, b) => a.x - b.x);
+                
+                if (surfacePoints.length > 0) {
+                    // Cria um caminho suave através dos pontos da superfície
+                    ctx.moveTo(surfacePoints[0].x, surfacePoints[0].y);
+                    
+                    for (let i = 1; i < surfacePoints.length; i++) {
+                        const prev = surfacePoints[i-1];
+                        const curr = surfacePoints[i];
+                        
+                        // Usa curvas quadráticas para suavizar
+                        const cpX = (prev.x + curr.x) / 2;
+                        const cpY = (prev.y + curr.y) / 2;
+                        
+                        ctx.quadraticCurveTo(prev.x, prev.y, cpX, cpY);
+                    }
+                    
+                    // Completa o caminho até as bordas
+                    ctx.lineTo(canvas.width, canvas.height);
+                    ctx.lineTo(0, canvas.height);
+                    ctx.closePath();
+                    
+                    // Cria gradiente para a água
+                    const waterGradient = ctx.createLinearGradient(0, surfaceY - 50, 0, canvas.height);
+                    waterGradient.addColorStop(0, "rgba(20, 100, 200, 0.7)");
+                    waterGradient.addColorStop(0.5, "rgba(15, 70, 150, 0.8)");
+                    waterGradient.addColorStop(1, "rgba(10, 40, 90, 0.9)");
+                    
+                    ctx.fillStyle = waterGradient;
+                    ctx.fill();
+                    
+                    // Adiciona brilho/reflexo na superfície
+                    if (!isRaining) {
+                        const reflectionGradient = ctx.createLinearGradient(0, surfaceY - 10, 0, surfaceY + 20);
+                        reflectionGradient.addColorStop(0, "rgba(255, 255, 255, 0.1)");
+                        reflectionGradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+                        
+                        // Redesenha apenas a linha da superfície para o brilho
+                        ctx.beginPath();
+                        ctx.moveTo(surfacePoints[0].x, surfacePoints[0].y);
+                        
+                        for (let i = 1; i < surfacePoints.length; i++) {
+                            const prev = surfacePoints[i-1];
+                            const curr = surfacePoints[i];
+                            
+                            const cpX = (prev.x + curr.x) / 2;
+                            const cpY = (prev.y + curr.y) / 2;
+                            
+                            ctx.quadraticCurveTo(prev.x, prev.y, cpX, cpY);
+                        }
+                        
+                        ctx.strokeStyle = reflectionGradient;
+                        ctx.lineWidth = 2;
+                        ctx.stroke();
+                    }
+                }
+                
+                // Desenha partículas de água (espumas/bolhas)
+                for (let i = 0; i < waves.length; i += 10) {
+                    const wave = waves[i];
+                    
+                    // Apenas partículas próximas à superfície
+                    if (wave.y > surfaceY - 30 && wave.y < surfaceY + 30 && Math.abs(wave.velocity) > 0.5) {
+                        const size = Math.random() * 2 + 1;
+                        const alpha = Math.min(Math.abs(wave.velocity) * 0.3, 0.7);
+                        
+                        ctx.beginPath();
+                        ctx.arc(wave.x, wave.y, size, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+                        ctx.fill();
+                    }
+                }
+            }
+            
+            // Loop de animação
+            function animate(currentTime) {
+                // Calcula deltaTime e FPS
+                frameCount++;
+                const deltaTime = currentTime - lastTime || 0;
+                
+                if (currentTime - lastTime >= 1000) {
+                    fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
+                    fpsCounterElement.textContent = fps;
+                    frameCount = 0;
+                    lastTime = currentTime;
+                }
+                
+                // Atualiza e desenha
+                updateWater(deltaTime);
+                drawWater();
+                
+                // Continua o loop
+                requestAnimationFrame(animate);
+            }
+            
+            // Event listeners para interação
+            let isDragging = false;
+            
+            canvas.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                createRipple(x, y, 1.5);
+            });
+            
+            canvas.addEventListener('mousemove', function(e) {
+                if (isDragging) {
+                    const rect = canvas.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    createRipple(x, y, 0.8);
+                } else {
+                    // Cria pequenas ondulações ao mover o mouse
+                    if (Math.random() < 0.3) {
+                        const rect = canvas.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        
+                        // Só cria ondulações se estiver sobre a água
+                        if (y > canvas.height * 0.6) {
+                            createRipple(x, y, 0.3);
+                        }
+                    }
+                }
+            });
+            
+            canvas.addEventListener('mouseup', function() {
+                isDragging = false;
+            });
+            
+            canvas.addEventListener('mouseleave', function() {
+                isDragging = false;
+            });
+            
+            // Controles
+            document.getElementById('calmBtn').addEventListener('click', function() {
+                Object.assign(waterConfig, waveSettings.calm);
+                isRaining = false;
+                this.style.boxShadow = '0 0 15px rgba(26, 208, 206, 0.7)';
+                document.getElementById('stormBtn').style.boxShadow = '';
+                document.getElementById('rainBtn').style.boxShadow = '';
+            });
+            
+            document.getElementById('stormBtn').addEventListener('click', function() {
+                Object.assign(waterConfig, waveSettings.storm);
+                isRaining = false;
+                this.style.boxShadow = '0 0 15px rgba(26, 208, 206, 0.7)';
+                document.getElementById('calmBtn').style.boxShadow = '';
+                document.getElementById('rainBtn').style.boxShadow = '';
+                
+                // Cria algumas ondas grandes
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => {
+                        createRipple(
+                            Math.random() * canvas.width,
+                            canvas.height * 0.7,
+                            2.0
+                        );
+                    }, i * 200);
+                }
+            });
+            
+            document.getElementById('rainBtn').addEventListener('click', function() {
+                Object.assign(waterConfig, waveSettings.normal);
+                isRaining = !isRaining;
+                this.style.boxShadow = isRaining ? '0 0 15px rgba(26, 208, 206, 0.7)' : '';
+                
+                if (!isRaining) {
+                    document.getElementById('calmBtn').style.boxShadow = '';
+                    document.getElementById('stormBtn').style.boxShadow = '';
+                }
+            });
+            
+            document.getElementById('resetBtn').addEventListener('click', function() {
+                Object.assign(waterConfig, waveSettings.normal);
+                isRaining = false;
+                initWater();
+                interactionCount = 0;
+                interactionCountElement.textContent = '0';
+                
+                // Remove os efeitos visuais dos botões
+                document.getElementById('calmBtn').style.boxShadow = '';
+                document.getElementById('stormBtn').style.boxShadow = '';
+                document.getElementById('rainBtn').style.boxShadow = '';
+            });
+            
+            // Inicializa a simulação e inicia a animação
+            initWater();
+            requestAnimationFrame(animate);
+        });
+    </script>
+</body>
+</html>
