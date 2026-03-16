@@ -1,196 +1,716 @@
-```html
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Artesanato em Crochê</title>
-
+<title>LIME clothing. — moda que faz sentido</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
 <style>
+  /* ... (mesmo CSS fornecido, mantive igual, apenas para economizar espaço, mas vou incluir no código final) ... */
+  /* Para brevidade, vou manter o CSS original, mas farei ajustes se necessário */
+  :root {
+    --black: #0A0A0A;
+    --charcoal: #1A1A1A;
+    --dark: #2A2A2A;
+    --mid: #555555;
+    --light: #888888;
+    --silver: #BBBBBB;
+    --fog: #DEDEDE;
+    --offwhite: #F5F5F3;
+    --white: #FAFAFA;
+    --accent-bg: #E8E8E8;
+    --red: #C0392B;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: "Poppins", sans-serif; background: var(--offwhite); color: var(--black); overflow-x: hidden; }
 
-body{
-margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background:#f5f5f5;
-text-align:center;
-}
+  .bar { background: var(--black); color: var(--offwhite); text-align: center; padding: 10px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 400; }
 
-/* topo */
+  header { background: var(--black); padding: 0 32px; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .header-inner { max-width: 1300px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
 
-header{
-padding:40px 20px;
-}
+  .logo-img { height: 52px; width: auto; cursor: pointer; display: block; filter: invert(1) brightness(1.1); }
 
-.logo{
-width:110px;
-height:110px;
-border-radius:50%;
-border:4px solid #555;
-margin:auto;
-margin-bottom:20px;
-}
+  nav { display: flex; gap: 0; align-items: center; }
+  nav a { text-decoration: none; color: var(--fog); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; padding: 26px 13px; position: relative; transition: color 0.2s; font-weight: 500; cursor: pointer; white-space: nowrap; }
+  nav a::after { content: ""; position: absolute; bottom: 0; left: 13px; right: 13px; height: 2px; background: var(--black); transform: scaleX(0); transition: transform 0.25s ease; }
+  nav a:hover { color: var(--white); }
+  nav a:hover::after, nav a.active::after { transform: scaleX(1); }
+  nav a.active { color: var(--white); font-weight: 600; }
+  nav a.promo-link { color: var(--red); }
+  nav a.promo-link::after { background: var(--red); }
 
-header h1{
-font-size:24px;
-color:#333;
-max-width:600px;
-margin:auto;
-}
+  .dropdown { position: relative; }
+  .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background: var(--white); border: 1px solid rgba(255,255,255,0.08); min-width: 180px; padding: 10px 0; z-index: 2000; box-shadow: 0 12px 40px rgba(0,0,0,0.1); }
+  .dropdown:hover .dropdown-menu { display: block; }
+  .dropdown-menu a { display: block; padding: 10px 22px; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--mid); font-weight: 400; }
+  .dropdown-menu a::after { display: none; }
+  .dropdown-menu a:hover { background: var(--offwhite); color: var(--black); }
 
-/* layout */
+  .header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .user-btn { background: none; border: 1.5px solid rgba(255,255,255,0.3); cursor: pointer; color: var(--fog); padding: 7px 14px; font-family: "Poppins", sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; transition: all 0.2s; white-space: nowrap; }
+  .user-btn:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+  .user-btn.logged { background: var(--black); color: var(--white); border-color: var(--black); }
+  .cart-btn { position: relative; background: var(--black); border: none; cursor: pointer; color: var(--white); padding: 8px 16px; display: flex; align-items: center; gap: 8px; font-family: "Poppins", sans-serif; font-size: 11px; font-weight: 600; transition: background 0.2s; white-space: nowrap; }
+  .cart-btn:hover { background: var(--charcoal); }
+  .cart-badge { background: var(--red); color: var(--white); font-size: 9px; font-weight: 700; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; }
+  .cart-total-lbl { font-size: 11px; font-weight: 600; }
 
-.container{
-display:flex;
-justify-content:center;
-gap:40px;
-flex-wrap:wrap;
-padding:40px 20px;
-}
+  .btn-primary { display: inline-block; background: var(--black); color: var(--white); padding: 15px 38px; font-size: 10.5px; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; cursor: pointer; border: 2px solid var(--black); transition: all 0.25s; font-family: "Poppins", sans-serif; font-weight: 600; }
+  .btn-primary:hover { background: var(--charcoal); }
+  .btn-outline { display: inline-block; background: transparent; color: var(--black); padding: 13px 34px; font-size: 10.5px; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; border: 2px solid var(--black); cursor: pointer; transition: all 0.25s; font-family: "Poppins", sans-serif; font-weight: 600; }
+  .btn-outline:hover { background: var(--black); color: var(--white); }
+  .btn-white { display: inline-block; background: var(--white); color: var(--black); padding: 15px 38px; font-size: 10.5px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; border: 2px solid var(--white); transition: all 0.25s; font-family: "Poppins", sans-serif; font-weight: 600; }
+  .btn-white:hover { background: transparent; color: var(--white); }
 
-/* cards */
+  .hero { height: 88vh; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; }
+  .hero-text { display: flex; flex-direction: column; justify-content: center; padding: 80px 70px; background: var(--offwhite); }
+  .hero-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--mid); margin-bottom: 24px; font-weight: 500; }
+  .hero-title { font-family: "Poppins", sans-serif; font-weight: 700; font-size: clamp(44px, 4.5vw, 68px); line-height: 1.05; color: var(--black); margin-bottom: 28px; letter-spacing: -2px; }
+  .hero-title em { font-style: italic; font-weight: 300; color: var(--mid); }
+  .hero-sub { font-size: 14px; color: var(--mid); line-height: 1.8; max-width: 320px; margin-bottom: 48px; font-weight: 300; }
+  .hero-image { position: relative; overflow: hidden; }
+  .hero-image-inner { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #2A2A2A, #111); position: relative; }
+  .hero-bg-logo { position: absolute; width: 70%; opacity: 0.06; filter: invert(1); }
+  .hero-badge { position: absolute; bottom: 40px; left: 40px; background: var(--white); padding: 18px 24px; animation: float 3s ease-in-out infinite; }
+  .hero-badge-lbl { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--mid); margin-bottom: 4px; font-weight: 500; }
+  .hero-badge-val { font-family: "Poppins", sans-serif; font-weight: 700; font-size: 17px; color: var(--black); letter-spacing: -0.5px; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
 
-.card{
-background:white;
-padding:25px;
-border-radius:12px;
-width:260px;
-box-shadow:0 8px 25px rgba(0,0,0,0.1);
-transition:.3s;
-}
+  section { padding: 80px 40px; }
+  .section-inner { max-width: 1300px; margin: 0 auto; }
+  .section-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 48px; }
+  .section-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--mid); margin-bottom: 8px; font-weight: 500; }
+  .section-title { font-family: "Poppins", sans-serif; font-size: 36px; font-weight: 700; color: var(--black); line-height: 1.1; letter-spacing: -1px; }
 
-.card:hover{
-transform:translateY(-5px);
-}
+  .cat-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+  .cat-card { position: relative; aspect-ratio: 3/4; overflow: hidden; cursor: pointer; }
+  .cat-card:hover .cat-bg { transform: scale(1.04); }
+  .cat-bg { width: 100%; height: 100%; transition: transform 0.5s; display: flex; align-items: center; justify-content: center; font-family: "Poppins", sans-serif; font-weight: 700; font-size: 90px; color: rgba(255,255,255,0.05); }
+  .cat-card:nth-child(1) .cat-bg { background: linear-gradient(160deg,#2A2A2A,#111); }
+  .cat-card:nth-child(2) .cat-bg { background: linear-gradient(160deg,#1A1A1A,#0A0A0A); }
+  .cat-card:nth-child(3) .cat-bg { background: linear-gradient(160deg,#333,#1A1A1A); }
+  .cat-card:nth-child(4) .cat-bg { background: linear-gradient(160deg,#222,#111); }
+  .cat-label { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top,rgba(0,0,0,0.8),transparent); padding: 40px 20px 20px; color: var(--white); }
+  .cat-label h3 { font-family: "Poppins", sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 2px; }
+  .cat-label span { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.6; }
 
-.card h2{
-color:#444;
-margin-bottom:20px;
-}
+  .prod-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; }
+  .prod-card { cursor: pointer; }
+  .prod-img { aspect-ratio: 3/4; background: var(--accent-bg); overflow: hidden; position: relative; margin-bottom: 14px; }
+  .prod-img-inner { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; transition: transform 0.4s; font-size: 60px; color: rgba(0,0,0,0.07); }
+  .prod-card:hover .prod-img-inner { transform: scale(1.05); }
+  .prod-tag { position: absolute; top: 12px; left: 12px; background: var(--black); color: var(--white); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 10px; font-weight: 600; }
+  .prod-tag.promo { background: var(--red); }
+  .prod-tag.new { background: var(--dark); }
+  .prod-wish { position: absolute; top: 12px; right: 12px; background: var(--white); border: none; width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; font-size: 15px; }
+  .prod-card:hover .prod-wish { opacity: 1; }
+  .prod-add-cart { position: absolute; bottom: 0; left: 0; right: 0; background: var(--black); color: var(--white); border: none; padding: 12px; font-family: "Poppins", sans-serif; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; cursor: pointer; opacity: 0; transition: opacity 0.2s; }
+  .prod-card:hover .prod-add-cart { opacity: 1; }
+  .prod-info h4 { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+  .prod-cat { font-size: 10px; color: var(--mid); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; font-weight: 400; }
+  .prod-price { display: flex; align-items: center; gap: 10px; }
+  .price-now { font-size: 15px; font-weight: 700; color: var(--black); }
+  .price-old { font-size: 12px; color: var(--silver); text-decoration: line-through; }
 
-ul{
-list-style:none;
-padding:0;
-margin:0;
-}
+  .promo-section { background: var(--black); padding: 80px 40px; }
+  .promo-inner { max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  .promo-text .section-label { color: var(--silver); }
+  .promo-text .section-title { color: var(--white); font-size: 50px; }
+  .promo-text .section-title em { font-style: italic; font-weight: 300; color: var(--silver); }
+  .promo-text p { color: var(--light); font-size: 14px; line-height: 1.8; margin: 20px 0 36px; font-weight: 300; }
+  .promo-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .promo-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); padding: 24px; cursor: pointer; transition: background 0.2s; }
+  .promo-card:hover { background: rgba(255,255,255,0.08); }
+  .promo-card-discount { font-family: "Poppins", sans-serif; font-size: 42px; font-weight: 700; color: var(--fog); line-height: 1; letter-spacing: -2px; }
+  .promo-card h4 { color: var(--white); font-size: 13px; font-weight: 600; margin: 8px 0 4px; }
+  .promo-card p { color: var(--light); font-size: 11px; margin: 0; line-height: 1.5; font-weight: 300; }
 
-li{
-padding:10px;
-cursor:pointer;
-border-radius:6px;
-transition:.2s;
-}
+  .opport-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 20px; }
+  .opport-main { grid-row: span 2; position: relative; background: linear-gradient(150deg,#2A2A2A,#111); overflow: hidden; cursor: pointer; min-height: 500px; display: flex; flex-direction: column; justify-content: flex-end; padding: 36px; }
+  .opport-main::before { content: ""; position: absolute; inset: 0; background: linear-gradient(to top,rgba(0,0,0,0.7),transparent 60%); }
+  .opport-filler { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  .opport-filler img { width: 70%; opacity: 0.06; filter: invert(1); }
+  .opport-main-text { position: relative; z-index: 1; }
+  .opport-main-text .badge { display: inline-block; background: var(--white); color: var(--black); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; padding: 5px 12px; margin-bottom: 12px; font-weight: 700; }
+  .opport-main-text h3 { font-family: "Poppins", sans-serif; font-size: 26px; color: var(--white); font-weight: 700; line-height: 1.2; margin-bottom: 8px; }
+  .opport-main-text .price-badge { display: flex; align-items: center; gap: 10px; margin-top: 12px; }
+  .opport-main-text .price-badge strong { font-size: 22px; color: var(--white); font-weight: 700; }
+  .opport-main-text .price-badge del { font-size: 14px; color: rgba(255,255,255,0.4); }
+  .opport-small { background: var(--white); border: 1px solid var(--fog); padding: 22px; cursor: pointer; transition: border-color 0.2s; display: flex; flex-direction: column; }
+  .opport-small:hover { border-color: var(--silver); }
+  .opport-small-img { height: 150px; background: var(--accent-bg); margin-bottom: 14px; display: flex; align-items: center; justify-content: center; font-size: 44px; color: rgba(0,0,0,0.1); }
+  .opport-small h4 { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+  .opport-small .meta { font-size: 10px; color: var(--mid); text-transform: uppercase; letter-spacing: 1px; margin-bottom: auto; font-weight: 400; }
+  .opport-small .prices { display: flex; align-items: center; gap: 8px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--fog); }
 
-li:hover{
-background:#f0f0f0;
-color:#c0392b;
-}
+  .acess-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+  .acess-card { cursor: pointer; text-align: center; }
+  .acess-img { aspect-ratio: 1; background: var(--accent-bg); margin-bottom: 12px; display: flex; align-items: center; justify-content: center; font-size: 40px; transition: transform 0.3s; }
+  .acess-card:hover .acess-img { transform: translateY(-4px); }
+  .acess-card h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px; font-weight: 700; }
+  .acess-card .price { font-size: 13px; color: var(--mid); font-weight: 400; }
 
-/* resultado */
+  .editorial { background: var(--black); display: grid; grid-template-columns: 1fr 1fr; min-height: 460px; }
+  .editorial-text { display: flex; flex-direction: column; justify-content: center; padding: 80px 70px; }
+  .editorial-text blockquote { font-family: "Poppins", sans-serif; font-size: 28px; font-weight: 700; font-style: italic; line-height: 1.3; color: var(--white); margin-bottom: 28px; }
+  .editorial-text p { font-size: 14px; color: var(--light); line-height: 1.8; margin-bottom: 36px; font-weight: 300; }
+  .editorial-img { background: var(--charcoal); display: flex; align-items: center; justify-content: center; padding: 60px; }
+  .editorial-img img { width: 80%; max-width: 300px; opacity: 0.15; filter: invert(1); }
 
-#resultado{
-margin:30px;
-font-size:20px;
-color:#333;
-}
+  .newsletter { background: var(--charcoal); text-align: center; padding: 60px 40px; }
+  .newsletter .section-label { display: flex; justify-content: center; color: var(--silver); margin-bottom: 12px; }
+  .newsletter h2 { font-family: "Poppins", sans-serif; font-size: 36px; font-weight: 700; color: var(--white); margin-bottom: 12px; letter-spacing: -1px; }
+  .newsletter p { color: var(--light); font-size: 14px; margin-bottom: 32px; font-weight: 300; }
+  .newsletter-form { display: flex; max-width: 420px; margin: 0 auto; }
+  .newsletter-form input { flex: 1; padding: 16px 20px; font-size: 13px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: var(--white); font-family: "Poppins", sans-serif; outline: none; }
+  .newsletter-form input::placeholder { color: var(--light); }
+  .newsletter-form input:focus { border-color: var(--silver); }
 
-/* botão */
+  footer { background: var(--black); border-top: 1px solid rgba(255,255,255,0.05); padding: 60px 40px 30px; }
+  .footer-inner { max-width: 1300px; margin: 0 auto; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 50px; margin-bottom: 50px; }
+  .footer-brand-logo { height: 48px; margin-bottom: 16px; filter: invert(1); opacity: 0.85; display: block; }
+  .footer-brand p { font-size: 13px; color: var(--light); line-height: 1.8; font-weight: 300; }
+  .footer-col h5 { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--white); margin-bottom: 20px; font-weight: 700; }
+  .footer-col a { display: block; font-size: 13px; color: var(--light); text-decoration: none; margin-bottom: 10px; transition: color 0.2s; cursor: pointer; font-weight: 300; }
+  .footer-col a:hover { color: var(--white); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; }
+  .footer-bottom p { font-size: 12px; color: var(--mid); font-weight: 300; }
+  .social-links { display: flex; gap: 12px; }
+  .social-link { width: 34px; height: 34px; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+  .social-link:hover { border-color: var(--silver); background: rgba(255,255,255,0.05); }
+  .social-link svg { fill: var(--light); width: 14px; height: 14px; }
 
-.botao{
-display:inline-block;
-margin-top:20px;
-background:#25D366;
-color:white;
-padding:12px 25px;
-border-radius:8px;
-text-decoration:none;
-font-weight:bold;
-}
+  .page-section { display: none; }
+  .page-section.active { display: block; }
 
-.botao:hover{
-opacity:.9;
-}
+  .roupas-header { background: var(--black); padding: 60px 40px; text-align: center; }
+  .roupas-header h1 { font-family: "Poppins", sans-serif; font-size: 54px; font-weight: 700; color: var(--white); margin-bottom: 8px; letter-spacing: -2px; }
+  .roupas-header p { color: var(--light); font-size: 13px; letter-spacing: 1px; font-weight: 300; }
+  .roupas-cats { display: flex; gap: 0; justify-content: center; padding: 0 40px; background: var(--white); border-bottom: 1px solid var(--fog); overflow-x: auto; }
+  .roupas-cats button { background: none; border: none; font-family: "Poppins", sans-serif; font-size: 10.5px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--mid); padding: 17px 16px; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; font-weight: 500; }
+  .roupas-cats button:hover, .roupas-cats button.active { color: var(--black); border-bottom-color: var(--black); }
+  .roupas-content { padding: 60px 40px; max-width: 1300px; margin: 0 auto; }
 
+  .promo-hero { background: var(--black); padding: 80px 40px; text-align: center; }
+  .promo-hero .section-label { color: var(--silver); display: block; margin-bottom: 16px; }
+  .promo-hero h1 { font-family: "Poppins", sans-serif; font-size: 80px; font-weight: 700; color: var(--white); line-height: 1; margin-bottom: 16px; letter-spacing: -4px; }
+  .promo-hero p { color: var(--light); font-size: 14px; margin-bottom: 32px; font-weight: 300; }
+  .promo-page-content { padding: 60px 40px; max-width: 1300px; margin: 0 auto; }
+
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 5000; align-items: center; justify-content: center; }
+  .overlay.open { display: flex; }
+  .modal { background: var(--white); width: 100%; max-width: 480px; max-height: 92vh; overflow-y: auto; position: relative; animation: slideUp 0.3s ease; }
+  .cart-modal { background: var(--white); width: 100%; max-width: 520px; max-height: 92vh; overflow-y: auto; position: relative; animation: slideUp 0.3s ease; }
+  @keyframes slideUp { from{transform:translateY(30px);opacity:0} to{transform:translateY(0);opacity:1} }
+  .modal-close { position: absolute; top: 14px; right: 14px; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--silver); line-height: 1; padding: 4px 8px; z-index: 10; }
+  .modal-close:hover { color: var(--black); }
+
+  .modal-header { background: var(--black); padding: 30px 40px; color: var(--white); }
+  .modal-header-logo { height: 36px; filter: invert(1); margin-bottom: 12px; display: block; }
+  .modal-header h2 { font-family: "Poppins", sans-serif; font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+  .modal-header p { font-size: 12px; color: var(--light); margin-top: 4px; font-weight: 300; }
+  .modal-tabs { display: flex; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .modal-tab { flex: 1; padding: 15px; border: none; background: none; font-family: "Poppins", sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--mid); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; }
+  .modal-tab.active { color: var(--black); border-bottom-color: var(--black); }
+  .modal-body { padding: 28px 40px; }
+  .form-group { margin-bottom: 17px; }
+  .form-group label { display: block; font-size: 9.5px; letter-spacing: 2px; text-transform: uppercase; color: var(--mid); margin-bottom: 7px; font-weight: 700; }
+  .form-group input { width: 100%; padding: 12px 15px; border: 1.5px solid var(--fog); font-family: "Poppins", sans-serif; font-size: 13px; color: var(--black); background: var(--white); outline: none; transition: border-color 0.2s; font-weight: 300; }
+  .form-group input:focus { border-color: var(--black); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .cart-header { background: var(--black); padding: 26px 36px; color: var(--white); display: flex; align-items: center; justify-content: space-between; }
+  .cart-header-logo { height: 32px; filter: invert(1); }
+  .cart-header h2 { font-family: "Poppins", sans-serif; font-size: 17px; font-weight: 700; }
+  .cart-items { padding: 20px 36px; }
+  .cart-item { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--fog); align-items: center; }
+  .cart-item-img { width: 65px; height: 84px; background: var(--accent-bg); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 26px; }
+  .cart-item-info { flex: 1; }
+  .cart-item-info h4 { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+  .cart-item-info p { font-size: 11px; color: var(--mid); font-weight: 300; margin-bottom: 8px; }
+  .cart-item-qty { display: flex; align-items: center; gap: 10px; }
+  .qty-btn { background: var(--fog); border: none; width: 26px; height: 26px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+  .qty-btn:hover { background: var(--silver); }
+  .qty-num { font-size: 13px; font-weight: 600; min-width: 20px; text-align: center; }
+  .cart-item-price { font-size: 14px; font-weight: 700; flex-shrink: 0; }
+  .cart-remove { background: none; border: none; cursor: pointer; color: var(--silver); font-size: 20px; padding: 4px; transition: color 0.2s; }
+  .cart-remove:hover { color: var(--red); }
+  .cart-footer { padding: 20px 36px 28px; border-top: 1px solid var(--fog); }
+  .coupon-section { margin-bottom: 20px; }
+  .coupon-section label { display: block; font-size: 9.5px; letter-spacing: 2px; text-transform: uppercase; color: var(--mid); margin-bottom: 8px; font-weight: 700; }
+  .coupon-row { display: flex; }
+  .coupon-row input { flex: 1; padding: 12px 15px; border: 1.5px solid var(--fog); font-family: "Poppins", sans-serif; font-size: 12px; outline: none; text-transform: uppercase; letter-spacing: 1px; font-weight: 400; }
+  .coupon-row input:focus { border-color: var(--black); }
+  .coupon-row button { background: var(--charcoal); color: var(--white); border: none; padding: 12px 18px; font-family: "Poppins", sans-serif; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+  .coupon-row button:hover { background: var(--black); }
+  .coupon-msg { font-size: 11px; color: green; margin-top: 8px; display: none; font-weight: 500; }
+  .coupon-msg.err { color: var(--red); }
+  .cart-totals { margin: 18px 0; }
+  .cart-totals > div { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; color: var(--mid); font-weight: 300; }
+  .cart-totals .total-row { font-size: 17px; font-weight: 700; color: var(--black); border-top: 2px solid var(--black); padding-top: 14px; margin-top: 14px; }
+  .cart-totals .disc-row { color: #27ae60; }
+  .cart-empty { text-align: center; padding: 60px 36px; color: var(--mid); }
+  .cart-empty p { font-size: 14px; font-weight: 300; margin-bottom: 24px; }
+  .checkout-note { background: var(--offwhite); border: 1px solid var(--fog); padding: 14px 18px; margin-bottom: 18px; font-size: 12px; color: var(--mid); line-height: 1.7; font-weight: 300; }
+  .mp-btn { width: 100%; display: flex; align-items: center; justify-content: center; gap: 12px; background: #009EE3; color: var(--white); border: none; padding: 17px; font-family: "Poppins", sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.5px; cursor: pointer; transition: background 0.2s; }
+  .mp-btn:hover { background: #0082c3; }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  .fade-up { animation: fadeUp 0.5s ease both; }
+  .fade-up:nth-child(2){animation-delay:0.1s} .fade-up:nth-child(3){animation-delay:0.2s} .fade-up:nth-child(4){animation-delay:0.3s}
 </style>
-
 </head>
-
 <body>
 
+<div class="bar">✦ Frete grátis em compras acima de R$199 ✦ Parcele em até 6x sem juros no Mercado Pago ✦</div>
+
 <header>
-
-<div class="logo"></div>
-
-<h1>
-Uma peça artesanal única, feita ponto a ponto com muito amor
-</h1>
-
+  <div class="header-inner">
+    <!-- Substituindo a imagem quebrada por um texto simples com estilo -->
+    <div class="logo-img" style="font-size: 24px; font-weight: 700; color: white; letter-spacing: -1px;">LIME</div>
+    <nav>
+      <a href="#" class="active" data-page="home">Início</a>
+      <a href="#" data-page="roupas">Roupas</a>
+      <a href="#" data-page="promocoes" class="promo-link">Promoções</a>
+      <div class="dropdown">
+        <a href="#">Coleções</a>
+        <div class="dropdown-menu">
+          <a href="#">Primavera</a>
+          <a href="#">Verão</a>
+          <a href="#">Outono</a>
+          <a href="#">Inverno</a>
+        </div>
+      </div>
+      <a href="#">Acessórios</a>
+      <a href="#">Editorial</a>
+    </nav>
+    <div class="header-right">
+      <button class="user-btn" id="loginBtn">Entrar</button>
+      <button class="cart-btn" id="cartBtn">
+        <span>Carrinho</span>
+        <span class="cart-badge">0</span>
+        <span class="cart-total-lbl">R$ 0</span>
+      </button>
+    </div>
+  </div>
 </header>
 
-<section class="container">
-
-<div class="card">
-
-<h2>Caminho da Fé</h2>
-
-<ul>
-<li onclick="mostrar('Santinhos')">Santinhos</li>
-<li onclick="mostrar('Anjinhos')">Anjinhos</li>
-<li onclick="mostrar('Terços')">Terços</li>
-<li onclick="mostrar('Presépio')">Presépio</li>
-<li onclick="mostrar('Sagrada Família')">Sagrada Família</li>
-<li onclick="mostrar('Jesus')">Jesus</li>
-</ul>
-
+<!-- Overlay do modal de login/cadastro -->
+<div class="overlay" id="authOverlay">
+  <div class="modal">
+    <button class="modal-close" id="closeAuth">&times;</button>
+    <div class="modal-header">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Ctext x='0' y='15' fill='white' font-family='Poppins' font-weight='700' font-size='16'%3ELIME%3C/text%3E%3C/svg%3E" alt="LIME" class="modal-header-logo">
+      <h2>Bem-vindo</h2>
+      <p>Entre ou crie sua conta</p>
+    </div>
+    <div class="modal-tabs">
+      <button class="modal-tab active" id="loginTab">Entrar</button>
+      <button class="modal-tab" id="registerTab">Cadastrar</button>
+    </div>
+    <div class="modal-body">
+      <div class="tab-content active" id="loginContent">
+        <div class="form-group">
+          <label>E-mail</label>
+          <input type="email" placeholder="seu@email.com">
+        </div>
+        <div class="form-group">
+          <label>Senha</label>
+          <input type="password" placeholder="••••••••">
+        </div>
+        <button class="btn-primary" style="width: 100%;">Entrar</button>
+      </div>
+      <div class="tab-content" id="registerContent">
+        <div class="form-group">
+          <label>Nome</label>
+          <input type="text" placeholder="Seu nome">
+        </div>
+        <div class="form-group">
+          <label>E-mail</label>
+          <input type="email" placeholder="seu@email.com">
+        </div>
+        <div class="form-group">
+          <label>Senha</label>
+          <input type="password" placeholder="••••••••">
+        </div>
+        <button class="btn-primary" style="width: 100%;">Cadastrar</button>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="card">
-
-<h2>Cantinho do Bebê</h2>
-
-<ul>
-<li onclick="mostrar('Móbile')">Móbile</li>
-<li onclick="mostrar('Porta maternidade')">Porta maternidade</li>
-<li onclick="mostrar('Naninha')">Naninha</li>
-<li onclick="mostrar('Fofuras')">Fofuras</li>
-<li onclick="mostrar('Zoo Safari')">Zoo Safari</li>
-<li onclick="mostrar('Chocalho')">Chocalho</li>
-</ul>
-
+<!-- Overlay do carrinho -->
+<div class="overlay" id="cartOverlay">
+  <div class="cart-modal">
+    <button class="modal-close" id="closeCart">&times;</button>
+    <div class="cart-header">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Ctext x='0' y='15' fill='white' font-family='Poppins' font-weight='700' font-size='16'%3ELIME%3C/text%3E%3C/svg%3E" alt="LIME" class="cart-header-logo">
+      <h2>Seu carrinho</h2>
+    </div>
+    <div class="cart-items">
+      <!-- Exemplo de item no carrinho -->
+      <div class="cart-item">
+        <div class="cart-item-img">👕</div>
+        <div class="cart-item-info">
+          <h4>Camiseta básica</h4>
+          <p>Preto / P</p>
+          <div class="cart-item-qty">
+            <button class="qty-btn">−</button>
+            <span class="qty-num">1</span>
+            <button class="qty-btn">+</button>
+          </div>
+        </div>
+        <div class="cart-item-price">R$ 89,90</div>
+        <button class="cart-remove">×</button>
+      </div>
+      <div class="cart-item">
+        <div class="cart-item-img">👖</div>
+        <div class="cart-item-info">
+          <h4>Calça jeans</h4>
+          <p>Azul / M</p>
+          <div class="cart-item-qty">
+            <button class="qty-btn">−</button>
+            <span class="qty-num">1</span>
+            <button class="qty-btn">+</button>
+          </div>
+        </div>
+        <div class="cart-item-price">R$ 159,90</div>
+        <button class="cart-remove">×</button>
+      </div>
+    </div>
+    <div class="cart-footer">
+      <div class="coupon-section">
+        <label>Cupom de desconto</label>
+        <div class="coupon-row">
+          <input type="text" placeholder="CUPOM10">
+          <button>Aplicar</button>
+        </div>
+      </div>
+      <div class="cart-totals">
+        <div><span>Subtotal</span> <span>R$ 249,80</span></div>
+        <div><span>Frete</span> <span>Grátis</span></div>
+        <div class="total-row"><span>Total</span> <span>R$ 249,80</span></div>
+      </div>
+      <button class="mp-btn">
+        <span>Continuar com Mercado Pago</span>
+      </button>
+    </div>
+  </div>
 </div>
 
-<div class="card">
+<!-- Seções da página -->
+<section class="page-section active" id="home">
+  <div class="hero">
+    <div class="hero-text">
+      <span class="hero-label">Nova coleção</span>
+      <h1 class="hero-title">menos é <em>mais</em></h1>
+      <p class="hero-sub">Descubra a moda com propósito. Peças atemporais, feitas para durar.</p>
+      <a href="#" class="btn-primary">Comprar</a>
+    </div>
+    <div class="hero-image">
+      <div class="hero-image-inner">
+        <div class="hero-bg-logo" style="font-size: 200px; color: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center;">LIME</div>
+        <div class="hero-badge">
+          <div class="hero-badge-lbl">Apenas hoje</div>
+          <div class="hero-badge-val">20% OFF</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<h2>Personagens em Crochê</h2>
+  <section>
+    <div class="section-inner">
+      <div class="section-header">
+        <div>
+          <div class="section-label">Categorias</div>
+          <h2 class="section-title">O que você procura?</h2>
+        </div>
+      </div>
+      <div class="cat-grid">
+        <div class="cat-card">
+          <div class="cat-bg">👕</div>
+          <div class="cat-label"><h3>Camisetas</h3><span>34 itens</span></div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-bg">👖</div>
+          <div class="cat-label"><h3>Calças</h3><span>22 itens</span></div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-bg">🧥</div>
+          <div class="cat-label"><h3>Jaquetas</h3><span>15 itens</span></div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-bg">👟</div>
+          <div class="cat-label"><h3>Tênis</h3><span>12 itens</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<ul>
-<li onclick="mostrar('Turma Moranguinho')">Turma Moranguinho</li>
-<li onclick="mostrar('Turma Chaves')">Turma Chaves</li>
-<li onclick="mostrar('Turma Lilo')">Turma Lilo</li>
-<li onclick="mostrar('Bonecas')">Bonecas</li>
-<li onclick="mostrar('Bonecos')">Bonecos</li>
-</ul>
-
-</div>
-
+  <section>
+    <div class="section-inner">
+      <div class="section-header">
+        <div>
+          <div class="section-label">Mais vendidos</div>
+          <h2 class="section-title">Os favoritos da semana</h2>
+        </div>
+        <a href="#" class="btn-outline">Ver todos</a>
+      </div>
+      <div class="prod-grid">
+        <div class="prod-card">
+          <div class="prod-img">
+            <div class="prod-img-inner">👕</div>
+            <span class="prod-tag new">Novo</span>
+            <button class="prod-wish">♡</button>
+            <button class="prod-add-cart">Adicionar</button>
+          </div>
+          <div class="prod-info">
+            <h4>Camiseta Oversized</h4>
+            <div class="prod-cat">Camisetas</div>
+            <div class="prod-price">
+              <span class="price-now">R$ 129,90</span>
+            </div>
+          </div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-img">
+            <div class="prod-img-inner">👖</div>
+            <span class="prod-tag promo">-15%</span>
+            <button class="prod-wish">♡</button>
+            <button class="prod-add-cart">Adicionar</button>
+          </div>
+          <div class="prod-info">
+            <h4>Calça cargo</h4>
+            <div class="prod-cat">Calças</div>
+            <div class="prod-price">
+              <span class="price-now">R$ 189,90</span>
+              <span class="price-old">R$ 219,90</span>
+            </div>
+          </div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-img">
+            <div class="prod-img-inner">🧥</div>
+            <button class="prod-wish">♡</button>
+            <button class="prod-add-cart">Adicionar</button>
+          </div>
+          <div class="prod-info">
+            <h4>Jaqueta Jeans</h4>
+            <div class="prod-cat">Jaquetas</div>
+            <div class="prod-price">
+              <span class="price-now">R$ 259,90</span>
+            </div>
+          </div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-img">
+            <div class="prod-img-inner">👟</div>
+            <span class="prod-tag new">Novo</span>
+            <button class="prod-wish">♡</button>
+            <button class="prod-add-cart">Adicionar</button>
+          </div>
+          <div class="prod-info">
+            <h4>Tênis casual</h4>
+            <div class="prod-cat">Tênis</div>
+            <div class="prod-price">
+              <span class="price-now">R$ 199,90</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </section>
 
-<div id="resultado"></div>
+<section class="page-section" id="roupas">
+  <div class="roupas-header">
+    <h1>Roupas</h1>
+    <p>Estilo e conforto para todas as ocasiões</p>
+  </div>
+  <div class="roupas-cats">
+    <button class="active">Todos</button>
+    <button>Camisetas</button>
+    <button>Calças</button>
+    <button>Jaquetas</button>
+    <button>Vestidos</button>
+    <button>Shorts</button>
+  </div>
+  <div class="roupas-content">
+    <div class="prod-grid">
+      <!-- Produtos repetidos para exemplo -->
+      <div class="prod-card">
+        <div class="prod-img"><div class="prod-img-inner">👕</div><button class="prod-add-cart">Adicionar</button></div>
+        <div class="prod-info"><h4>Camiseta básica</h4><div class="prod-cat">Camisetas</div><div class="prod-price"><span class="price-now">R$ 79,90</span></div></div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-img"><div class="prod-img-inner">👖</div><button class="prod-add-cart">Adicionar</button></div>
+        <div class="prod-info"><h4>Calça skinny</h4><div class="prod-cat">Calças</div><div class="prod-price"><span class="price-now">R$ 149,90</span></div></div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-img"><div class="prod-img-inner">🧥</div><button class="prod-add-cart">Adicionar</button></div>
+        <div class="prod-info"><h4>Jaqueta bomber</h4><div class="prod-cat">Jaquetas</div><div class="prod-price"><span class="price-now">R$ 199,90</span></div></div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-img"><div class="prod-img-inner">👗</div><button class="prod-add-cart">Adicionar</button></div>
+        <div class="prod-info"><h4>Vestido floral</h4><div class="prod-cat">Vestidos</div><div class="prod-price"><span class="price-now">R$ 129,90</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<a class="botao" href="#">Fazer Pedido no WhatsApp</a>
+<section class="page-section" id="promocoes">
+  <div class="promo-hero">
+    <span class="section-label">Ofertas especiais</span>
+    <h1>PROMOÇÕES</h1>
+    <p>Aproveite descontos imperdíveis por tempo limitado</p>
+    <a href="#" class="btn-white">Ver ofertas</a>
+  </div>
+  <div class="promo-page-content">
+    <div class="prod-grid">
+      <div class="prod-card">
+        <div class="prod-img"><div class="prod-img-inner">👕</div><span class="prod-tag promo">-20%</span><button class="prod-add-cart">Adicionar</button></div>
+        <div class="prod-info"><h4>Camiseta promocional</h4><div class="prod-price"><span class="price-now">R$ 63,92</span><span class="price-old">R$ 79,90</span></div></div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-img"><div class="prod-img-inner">👖</div><span class="prod-tag promo">-30%</span><button class="prod-add-cart">Adicionar</button></div>
+        <div class="prod-info"><h4>Calça em promoção</h4><div class="prod-price"><span class="price-now">R$ 104,93</span><span class="price-old">R$ 149,90</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Outras seções existentes no original, como editorial, newsletter, footer, etc. -->
+<section class="editorial">
+  <div class="editorial-text">
+    <blockquote>“A moda é a armadura para sobreviver à realidade cotidiana.”</blockquote>
+    <p>Nossas peças são desenhadas para quem busca autenticidade. Cada coleção conta uma história.</p>
+    <a href="#" class="btn-outline" style="background: white; color: black;">Conheça</a>
+  </div>
+  <div class="editorial-img">
+    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='80' fill='%23333'/%3E%3Ctext x='50' y='120' fill='white' font-family='Poppins' font-size='30'%3ELIME%3C/text%3E%3C/svg%3E" alt="LIME">
+  </div>
+</section>
+
+<section class="newsletter">
+  <div class="section-label">Fique por dentro</div>
+  <h2>Newsletter</h2>
+  <p>Receba novidades e ofertas exclusivas</p>
+  <form class="newsletter-form">
+    <input type="email" placeholder="Seu e-mail">
+    <button class="btn-primary" style="border: none;">Enviar</button>
+  </form>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 30'%3E%3Ctext x='0' y='20' fill='white' font-family='Poppins' font-weight='700' font-size='24'%3ELIME%3C/text%3E%3C/svg%3E" alt="LIME" class="footer-brand-logo">
+        <p>Moda consciente, peças atemporais. Feito para durar.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Institucional</h5>
+        <a href="#">Sobre nós</a>
+        <a href="#">Sustentabilidade</a>
+        <a href="#">Trabalhe conosco</a>
+      </div>
+      <div class="footer-col">
+        <h5>Ajuda</h5>
+        <a href="#">FAQ</a>
+        <a href="#">Trocas e devoluções</a>
+        <a href="#">Entregas</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contato</h5>
+        <a href="#">oi@lime.com</a>
+        <a href="#">(11) 99999-9999</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 LIME clothing. Todos os direitos reservados.</p>
+      <div class="social-links">
+        <span class="social-link"><svg viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.8c4.56-.93 8-4.96 8-9.8z"/></svg></span>
+        <span class="social-link"><svg viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98-3.56-.18-6.73-1.89-8.84-4.48-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.52 8.52 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.9 20.29 6.16 21 8.58 21c7.88 0 12.21-6.54 12.21-12.21 0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/></svg></span>
+        <span class="social-link"><svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.69-4.92-4.92-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.15-3.23 1.66-4.77 4.92-4.92 1.27-.06 1.65-.07 4.85-.07zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.7.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.35 2.63 6.78 6.98 6.98 1.28.06 1.67.07 4.95.07s3.67-.01 4.95-.07c4.35-.2 6.78-2.63 6.98-6.98.06-1.28.07-1.67.07-4.95s-.01-3.67-.07-4.95c-.2-4.35-2.63-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84c-3.4 0-6.16 2.76-6.16 6.16s2.76 6.16 6.16 6.16 6.16-2.76 6.16-6.16S15.4 5.84 12 5.84zm0 10.16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm4.84-10.4c0 .79-.64 1.44-1.44 1.44-.79 0-1.44-.65-1.44-1.44 0-.79.65-1.44 1.44-1.44.8 0 1.44.65 1.44 1.44z"/></svg></span>
+      </div>
+    </div>
+  </div>
+</footer>
 
 <script>
+  // JavaScript para alternar seções (navegação)
+  document.querySelectorAll('nav a[data-page]').forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const pageId = this.dataset.page;
+      document.querySelectorAll('.page-section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById(pageId).classList.add('active');
+      // Atualizar classe active nos links
+      document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
 
-function mostrar(item){
+  // Modais
+  const authOverlay = document.getElementById('authOverlay');
+  const cartOverlay = document.getElementById('cartOverlay');
+  const loginBtn = document.getElementById('loginBtn');
+  const cartBtn = document.getElementById('cartBtn');
+  const closeAuth = document.getElementById('closeAuth');
+  const closeCart = document.getElementById('closeCart');
 
-document.getElementById("resultado").innerHTML =
-"Você selecionou: <b>"+item+"</b>";
+  loginBtn.addEventListener('click', () => {
+    authOverlay.classList.add('open');
+  });
 
-}
+  cartBtn.addEventListener('click', () => {
+    cartOverlay.classList.add('open');
+  });
 
+  closeAuth.addEventListener('click', () => {
+    authOverlay.classList.remove('open');
+  });
+
+  closeCart.addEventListener('click', () => {
+    cartOverlay.classList.remove('open');
+  });
+
+  // Fechar ao clicar fora do modal
+  authOverlay.addEventListener('click', (e) => {
+    if (e.target === authOverlay) authOverlay.classList.remove('open');
+  });
+  cartOverlay.addEventListener('click', (e) => {
+    if (e.target === cartOverlay) cartOverlay.classList.remove('open');
+  });
+
+  // Abas do modal de login
+  const loginTab = document.getElementById('loginTab');
+  const registerTab = document.getElementById('registerTab');
+  const loginContent = document.getElementById('loginContent');
+  const registerContent = document.getElementById('registerContent');
+
+  loginTab.addEventListener('click', () => {
+    loginTab.classList.add('active');
+    registerTab.classList.remove('active');
+    loginContent.classList.add('active');
+    registerContent.classList.remove('active');
+  });
+
+  registerTab.addEventListener('click', () => {
+    registerTab.classList.add('active');
+    loginTab.classList.remove('active');
+    registerContent.classList.add('active');
+    loginContent.classList.remove('active');
+  });
 </script>
 
 </body>
 </html>
-```
